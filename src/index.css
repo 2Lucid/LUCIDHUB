@@ -1,0 +1,367 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-color-1: #0f172a;
+  /* Slate 900 */
+  --bg-color-2: #1e293b;
+  /* Slate 800 */
+  --text-main: #f8fafc;
+  /* Slate 50 */
+  --text-muted: #94a3b8;
+  /* Slate 400 */
+
+  /* Dynamic Theme Variables - Updated via JS */
+  --theme-primary: #1e293b;
+  --theme-secondary: #0f172a;
+  --theme-shadow: rgba(0, 0, 0, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-color-1);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Dynamic Background animated wrapper */
+.app-container {
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  transition: all 0.8s ease;
+}
+
+/* Floating animated orbs in the base background */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.4;
+  pointer-events: none;
+  animation: float 20s infinite ease-in-out alternate;
+}
+
+.orb-1 {
+  width: 40vw;
+  height: 40vw;
+  background: #1e3a8a;
+  /* Deep blue */
+  top: -10%;
+  left: -10%;
+  animation-duration: 25s;
+}
+
+.orb-2 {
+  width: 35vw;
+  height: 35vw;
+  background: #312e81;
+  /* Deep indigo */
+  bottom: -10%;
+  right: -10%;
+  animation-duration: 20s;
+  animation-direction: alternate-reverse;
+}
+
+.orb-3 {
+  width: 30vw;
+  height: 30vw;
+  background: #064e3b;
+  /* Deep emerald */
+  top: 40%;
+  left: 30%;
+  animation-duration: 30s;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(10%, 10%) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-10%, 5%) scale(0.9);
+  }
+
+  100% {
+    transform: translate(5%, -10%) scale(1.05);
+  }
+}
+
+
+/* Background wrapper */
+.theme-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  background-color: transparent;
+  /* Changed to transparent so orbs show underneath */
+}
+
+/* Pseudo-element for the dynamic gradient. Only opacity is animated for 60fps performance */
+.theme-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 0%,
+      var(--theme-secondary) 0%,
+      var(--bg-color-1) 60%,
+      var(--bg-color-1) 100%);
+  opacity: var(--theme-bg-opacity, 0);
+  /* Toggled by JS */
+  transition: opacity 0.8s ease;
+  will-change: opacity;
+  /* Hardware acceleration hint */
+}
+
+.theme-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Main Content Area */
+.main-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  animation: fadeIn 1s ease-out;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  background: linear-gradient(to right, #fff, var(--text-muted));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+/* Grid Layout - Mobile First */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .header h1 {
+    font-size: 4rem;
+  }
+}
+
+/* Project Card */
+.project-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  /* Lighter and more transparent for true frosted glass */
+  backdrop-filter: blur(24px) saturate(150%);
+  /* High blur and saturation for modern glass */
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  /* Top highlight simulating light */
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  /* Side highlight */
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  /* Strong depth shadow behind glass */
+  padding: 2rem;
+  text-decoration: none;
+  color: var(--text-main);
+  /* Use transform instead of all for 60fps */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow: hidden;
+  cursor: pointer;
+  will-change: transform;
+}
+
+/* Card Glow Effect on Hover */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--card-gradient, rgba(255, 255, 255, 0.1));
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  background: rgba(255, 255, 255, 0.08);
+  /* Whiter frost on hover */
+  border-color: rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 40px -10px var(--card-shadow, rgba(0, 0, 0, 0.5));
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+/* Sub-elements in Card */
+.card-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  /* Subtle glass icon container */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.project-card:hover .card-icon-wrapper {
+  background: var(--card-gradient);
+  box-shadow: 0 0 20px var(--card-shadow);
+  transform: scale(1.1) rotate(5deg);
+}
+
+.card-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.card-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+.project-card:hover .card-desc {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.card-arrow {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.project-card:hover .card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered animation for cards */
+.projects-grid .project-card:nth-child(1) {
+  animation: fadeIn 0.6s ease-out 0.1s both;
+}
+
+.projects-grid .project-card:nth-child(2) {
+  animation: fadeIn 0.6s ease-out 0.2s both;
+}
+
+.projects-grid .project-card:nth-child(3) {
+  animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.projects-grid .project-card:nth-child(4) {
+  animation: fadeIn 0.6s ease-out 0.4s both;
+}
+
+.projects-grid .project-card:nth-child(5) {
+  animation: fadeIn 0.6s ease-out 0.5s both;
+}
+
+.projects-grid .project-card:nth-child(6) {
+  animation: fadeIn 0.6s ease-out 0.6s both;
+}
