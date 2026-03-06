@@ -5,7 +5,8 @@ import {
   GraduationCap,
   Users,
   PieChart,
-  CheckSquare
+  CheckSquare,
+  Globe
 } from 'lucide-react';
 
 export const projects = [
@@ -98,6 +99,19 @@ export const projects = [
       secondary: '#b91c1c',
       gradient: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
       shadow: 'rgba(239, 68, 68, 0.4)'
+    }
+  },
+  {
+    id: 'lucid-official',
+    name: 'Lucid Official',
+    description: 'Site Officiel Lucid',
+    url: 'https://lucid-nu-seven.vercel.app',
+    icon: Globe,
+    theme: {
+      primary: '#ffffff', // White/Silver for a clean "Official" look
+      secondary: '#94a3b8',
+      gradient: 'linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%)',
+      shadow: 'rgba(255, 255, 255, 0.2)'
     }
   }
 ];
