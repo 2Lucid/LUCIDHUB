@@ -24,19 +24,6 @@ export const projects = [
     }
   },
   {
-    id: 'linxea',
-    name: 'Linxea',
-    description: 'Suivi des Investissements',
-    url: 'https://espaceclient.linxea.com/authentification',
-    icon: PieChart,
-    theme: {
-      primary: '#10b981', // Moved Emerald to Linxea
-      secondary: '#047857',
-      gradient: 'linear-gradient(135deg, #10b981 0%, #047857 100%)',
-      shadow: 'rgba(16, 185, 129, 0.4)'
-    }
-  },
-  {
     id: 'lucid-admin',
     name: 'Lucid Admin',
     description: 'Panel d\'Administration Central',
